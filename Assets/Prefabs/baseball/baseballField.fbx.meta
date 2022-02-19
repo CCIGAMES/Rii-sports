@@ -33,7 +33,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: dirt02
-    second: {fileID: 2100000, guid: fed4f8b32b2943e47adbb405f53dcd7a, type: 2}
+    second: {fileID: 2100000, guid: 023542e3b90f4a84da55c1b7a215bc4b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
