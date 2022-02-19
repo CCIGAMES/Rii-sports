@@ -24,15 +24,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     ""name"": ""Controls"",
     ""maps"": [
         {
-            ""name"": ""player"",
-            ""id"": ""ed99b2e8-087c-4987-acf8-f53b0e248863"",
+            ""name"": ""Player"",
+            ""id"": ""8948ec1e-14fb-4cfc-8461-3f3a22a974b9"",
             ""actions"": [
                 {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
-                    ""id"": ""eddf60ac-dca0-41ad-aa57-ac5c949f3832"",
+                    ""id"": ""306e9ca7-233a-4be3-8051-4ebef48113bd"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""ScaleVector2(x=2,y=2)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 }
@@ -40,7 +40,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": ""WASD"",
-                    ""id"": ""f2715f5a-a700-461d-992d-81982b17c10b"",
+                    ""id"": ""c0315d39-4307-4da1-88b1-b7e77562804a"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -51,51 +51,51 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""aba2a1f2-f75d-4271-b480-e7769764b609"",
+                    ""id"": ""2b0cc16b-b8e6-48cf-983c-a811bbf9355a"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""pc"",
+                    ""groups"": ""PC"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""a2196ae4-5522-4d8b-88c0-9debfcde92a9"",
+                    ""id"": ""47773edb-c52f-4f56-a01c-19cafdb08878"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""pc"",
+                    ""groups"": ""PC"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""72778fd0-a586-4664-bbd0-aa30458bdb92"",
+                    ""id"": ""a95cc78d-dca1-4c9c-a941-1fe47ad08738"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""pc"",
+                    ""groups"": ""PC"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""fb5d9fe3-1764-44f8-80ac-ec29c55b1866"",
+                    ""id"": ""af865e88-c14d-4a27-a7e7-10b104db0437"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""pc"",
+                    ""groups"": ""PC"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Arrows"",
-                    ""id"": ""3a4afc06-df2a-43e1-a6d6-4a34bf196c4c"",
+                    ""name"": ""arrows"",
+                    ""id"": ""9415257c-d493-4332-818b-2a9d2b5892bd"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -106,44 +106,44 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""0b1fa34b-ea34-451e-9857-ef6ea95a47c8"",
+                    ""id"": ""e8a36e97-53e2-4f0d-b062-db18525b4e11"",
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""pc"",
+                    ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""b4305cb8-fb60-4568-9eed-21cab756cab3"",
+                    ""id"": ""28e6c7fe-6420-4b8d-b4bf-d86e6773e0b6"",
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""pc"",
+                    ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""bdac9b58-2acb-4922-be32-2fd8ff9755d1"",
+                    ""id"": ""9262c09d-7f3c-433a-9d59-509e93f44d33"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""pc"",
+                    ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""c2c9b552-ad2b-4556-8f94-4b1644f09fa0"",
+                    ""id"": ""3e24371d-d07d-46bd-b626-32019e527e35"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""pc"",
+                    ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -153,8 +153,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""pc"",
-            ""bindingGroup"": ""pc"",
+            ""name"": ""PC"",
+            ""bindingGroup"": ""PC"",
             ""devices"": [
                 {
                     ""devicePath"": ""<Keyboard>"",
@@ -170,9 +170,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // player
-        m_player = asset.FindActionMap("player", throwIfNotFound: true);
-        m_player_Move = m_player.FindAction("Move", throwIfNotFound: true);
+        // Player
+        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,16 +229,16 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // player
-    private readonly InputActionMap m_player;
+    // Player
+    private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_player_Move;
+    private readonly InputAction m_Player_Move;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
         public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_player_Move;
-        public InputActionMap Get() { return m_Wrapper.m_player; }
+        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
@@ -260,14 +260,14 @@ public partial class @Controls : IInputActionCollection2, IDisposable
             }
         }
     }
-    public PlayerActions @player => new PlayerActions(this);
-    private int m_pcSchemeIndex = -1;
-    public InputControlScheme pcScheme
+    public PlayerActions @Player => new PlayerActions(this);
+    private int m_PCSchemeIndex = -1;
+    public InputControlScheme PCScheme
     {
         get
         {
-            if (m_pcSchemeIndex == -1) m_pcSchemeIndex = asset.FindControlSchemeIndex("pc");
-            return asset.controlSchemes[m_pcSchemeIndex];
+            if (m_PCSchemeIndex == -1) m_PCSchemeIndex = asset.FindControlSchemeIndex("PC");
+            return asset.controlSchemes[m_PCSchemeIndex];
         }
     }
     public interface IPlayerActions
