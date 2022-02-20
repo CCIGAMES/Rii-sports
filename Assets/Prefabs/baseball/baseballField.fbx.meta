@@ -33,7 +33,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: dirt02
-    second: {fileID: 2100000, guid: fed4f8b32b2943e47adbb405f53dcd7a, type: 2}
+    second: {fileID: 2100000, guid: 023542e3b90f4a84da55c1b7a215bc4b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -58,57 +58,57 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: line01
-    second: {fileID: 2100000, guid: 24b8ed0c30c159a459a41c984615f9d5, type: 2}
+    second: {fileID: 2100000, guid: b7b8c328f9cac5743b1b025612fdd462, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: nets01
-    second: {fileID: 2100000, guid: 5f7fcb28b5bbba1458eea075f435d9aa, type: 2}
+    second: {fileID: 2100000, guid: 8f9ea145c23ceef40a659fe2cd9eee77, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: roof01
-    second: {fileID: 2100000, guid: d5b7e628e1f72f345ab50ce1e3be217f, type: 2}
+    second: {fileID: 2100000, guid: d73c545164acebd4ea8b0680457ef2d5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: seat
-    second: {fileID: 2100000, guid: 0dc73f5c17317df459b7d4fdb9e6c93c, type: 2}
+    second: {fileID: 2100000, guid: df8903852e0f1aa498bb95d3e6dbf0e6, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: shadow01
-    second: {fileID: 2100000, guid: 13035d17cee399549955f6ca6c5dfa58, type: 2}
+    second: {fileID: 2100000, guid: e4645cdfc8de9d64186ac6fb543969d2, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: shadow02
-    second: {fileID: 2100000, guid: 46012e6d21ba19c4192f55e56ba74cae, type: 2}
+    second: {fileID: 2100000, guid: a0b6d1e0047d07d46a0dc6030dc765df, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: shadows
-    second: {fileID: 2100000, guid: 92cc1808c5fc2214ea49ea5a4e70303f, type: 2}
+    second: {fileID: 2100000, guid: 6cf748212b6535a45804e8695e743524, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: signboardA
-    second: {fileID: 2100000, guid: efc7f514963b2cd4487be86d81bd05ad, type: 2}
+    second: {fileID: 2100000, guid: 93f396c8d34d4c840acded2aba10b1cf, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: signboardB
-    second: {fileID: 2100000, guid: cdef791989d3ac6478da0d78202e158c, type: 2}
+    second: {fileID: 2100000, guid: 373b8d6976d6ab94f902a27d9852aac8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: signboardBshadow
-    second: {fileID: 2100000, guid: b5ced27e7393742459f1781e7741f326, type: 2}
+    second: {fileID: 2100000, guid: 766a33e05d4999a40b0db52610197b1e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: stairs
-    second: {fileID: 2100000, guid: ce9bad14b33cf1542833ac67c21b0ffc, type: 2}
+    second: {fileID: 2100000, guid: cae16335ca4767944a0db3001c4ad25f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -128,7 +128,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: z_foul_pole
-    second: {fileID: 2100000, guid: be48ac0f973b1f34c895cc0fbd75af66, type: 2}
+    second: {fileID: 2100000, guid: 7c5fd4c7ef7196e42a699842f325aafe, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
