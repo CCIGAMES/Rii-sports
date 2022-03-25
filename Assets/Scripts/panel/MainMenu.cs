@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,4 +17,6 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+    
+    private IEnumerator Play(){}
 }
