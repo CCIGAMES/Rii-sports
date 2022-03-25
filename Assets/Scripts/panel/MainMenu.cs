@@ -17,6 +17,6 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
-    
-    private IEnumerator Play(){}
+    //TODO: loading screen
+    //private IEnumerator Play(){}
 }
