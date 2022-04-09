@@ -3,8 +3,8 @@
 public class Looker : MonoBehaviour
 {
     public GameObject ai;
-    private float reset = 5;
     private bool movingDown;
+    private float reset = 5;
 
     private void Start()
     {
@@ -27,20 +27,13 @@ public class Looker : MonoBehaviour
     public void Update()
     {
         if (movingDown == false)
-        {
             transform.position -= new Vector3(0, 0, 0.1f);
-        }else
-        { 
+        else
             transform.position += new Vector3(0, 0, 0.1f);
-        }
 
         if (transform.position.z > 10)
-        {
             movingDown = false;
-        }else if (transform.position.z < 10)
-        {
-            movingDown = true;
-        }
+        else if (transform.position.z < 10) movingDown = true;
 
         reset -= Time.deltaTime;
         if (reset < 0)
@@ -49,7 +42,7 @@ public class Looker : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
         }
     }
-    
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))

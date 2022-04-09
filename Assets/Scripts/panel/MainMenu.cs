@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,9 +8,13 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Scenes/baseballField");
     }
 
-    public void Settings() { }
+    public void Settings()
+    {
+    }
 
-    public void Dlcs() { }
+    public void Dlcs()
+    {
+    }
 
     public void Quit()
     {
