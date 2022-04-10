@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class AI : MonoBehaviour
 {
     public GameObject player;
     private NavMeshAgent navmesh;
-    
-    void Start()
+
+    private void Start()
     {
         navmesh = GetComponent<NavMeshAgent>();
     }
-    
-    void Update()
+
+    private void Update()
     {
         navmesh.destination = player.transform.position;
     }
