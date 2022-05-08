@@ -8,12 +8,18 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Scenes/baseballField");
     }
 
-    public void Settings() { }
+    public void Settings()
+    {
+    }
 
-    public void Dlcs() { }
+    public void Dlcs()
+    {
+    }
 
     public void Quit()
     {
         Application.Quit();
     }
+    //TODO: loading screen
+    //private IEnumerator Play(){}
 }
