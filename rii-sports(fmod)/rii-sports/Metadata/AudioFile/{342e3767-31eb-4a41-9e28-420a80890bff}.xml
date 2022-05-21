@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{342e3767-31eb-4a41-9e28-420a80890bff}">
+		<property name="color">
+			<value>Blue</value>
+		</property>
+		<property name="assetPath">
+			<value>music/theme.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>133.04163265306121</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{2ad87439-ffb3-405a-917e-1a6a4f22426b}</destination>
+		</relationship>
+	</object>
+</objects>
