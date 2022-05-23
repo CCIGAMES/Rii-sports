@@ -2,34 +2,29 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    [SerializeField] private float sensitivityX = 8f;
-    [SerializeField] private float sensitivityY = 0.5f;
-
-    [SerializeField] private Transform playerCamera;
-    [SerializeField] private float xClamp = 85f;
-    private float mouseX, mouseY;
-    private float xRotation;
+    public float mouseSensitivity = 100.0f;
+    public float clampAngle = 80.0f;
+    private float rotX;
+    private float rotY;
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        var rot = transform.localRotation.eulerAngles;
+        rotY = rot.y;
+        rotX = rot.x;
     }
 
     private void Update()
     {
-        transform.Rotate(Vector3.up, mouseX * Time.deltaTime);
+        var mouseX = Input.GetAxis("Mouse X");
+        var mouseY = -Input.GetAxis("Mouse Y");
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -xClamp, xClamp);
-        var targetRotation = transform.eulerAngles;
-        targetRotation.x = xRotation;
-        playerCamera.eulerAngles = targetRotation;
-    }
+        rotY += mouseX * mouseSensitivity * Time.deltaTime;
+        rotX += mouseY * mouseSensitivity * Time.deltaTime;
 
-    public void ReceiveInput(Vector2 mouseInput)
-    {
-        mouseX = mouseInput.x * sensitivityX;
-        mouseY = mouseInput.y * sensitivityY;
+        rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
+
+        var localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
+        transform.rotation = localRotation;
     }
 }

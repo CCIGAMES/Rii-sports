@@ -8,5 +8,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: db9f14482c73e9c4b96fc4360e3d040d
+  - enabled: 1
+    path: Assets/Scenes/Baseball.unity
+    guid: dde93a0bfaa9dd24dad89c3cee4ecd09
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 267363eb6e788804295807208b08ee0f, type: 2}

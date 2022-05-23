@@ -1,31 +1,30 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(CharacterController))]
 public class Movement : MonoBehaviour
 {
-    [SerializeField] private CharacterController controller;
-    [SerializeField] private float speed = 11f;
-    [SerializeField] private float gravity = -30f;
-    [SerializeField] private LayerMask groundMask;
-    private Vector2 move;
-    private bool isGrounded;
-    private bool jump;
-    private Vector3 verticalVelocity = Vector3.zero;
+    public float moveSpeed;
+    private Vector2 m_Move;
 
-    private void Update()
+    public void Update()
     {
-        var transform1 = transform;
-        var horizontalVelocity = (transform1.right * move.x + transform1.forward * move.y) * speed;
-
-        isGrounded = Physics.CheckSphere(transform1.position, 0.1f, groundMask);
-        if (isGrounded) verticalVelocity.y = 0;
-        
-        controller.Move(horizontalVelocity * Time.deltaTime);
-        verticalVelocity.y += gravity * Time.deltaTime;
-        controller.Move(verticalVelocity * Time.deltaTime);
+        Move(m_Move);
     }
 
-    public void ReceiveInput(Vector2 _horizontalInput)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        move = _horizontalInput;
+        m_Move = context.ReadValue<Vector2>();
+    }
+
+    private void Move(Vector2 direction)
+    {
+        if (direction.sqrMagnitude < 0.01)
+            return;
+        var scaledMoveSpeed = moveSpeed * Time.deltaTime;
+
+        var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
+        transform.position += move * scaledMoveSpeed;
     }
 }
