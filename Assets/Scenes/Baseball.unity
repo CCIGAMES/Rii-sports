@@ -159,7 +159,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -459,7 +459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &554320579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,7 +503,6 @@ GameObject:
   - component: {fileID: 641046071}
   - component: {fileID: 641046070}
   - component: {fileID: 641046069}
-  - component: {fileID: 641046072}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -523,12 +522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e12f9f2555b9a446adeb39e31e14f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  speed: 11
-  gravity: -30
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
+  moveSpeed: 5
 --- !u!114 &641046070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,11 +564,23 @@ MonoBehaviour:
         m_CallState: 1
     m_ActionId: 306e9ca7-233a-4be3-8051-4ebef48113bd
     m_ActionName: Player/Move
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ac629136-0cb9-4a32-903f-5962be42faf9
+    m_ActionName: Player/MouseX[/Mouse/delta/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c43ec110-2d84-4d11-a78c-6076d53420db
+    m_ActionName: Player/MouseY[/Mouse/delta/y]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c1362516-d657-40ed-bdfb-6b6f43777c61
+    m_ActionName: Player/Fire[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: PC
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1860364217}
 --- !u!143 &641046071
 CharacterController:
   m_ObjectHideFlags: 0
@@ -593,20 +599,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &641046072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 641046068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fae3618808830a44aa1809bd014715ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mouseSensitivity: 100
-  clampAngle: 80
 --- !u!4 &641046075
 Transform:
   m_ObjectHideFlags: 0
@@ -814,6 +806,7 @@ GameObject:
   - component: {fileID: 1860364217}
   - component: {fileID: 1860364219}
   - component: {fileID: 1860364216}
+  - component: {fileID: 1860364220}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -925,6 +918,20 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1860364220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860364215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fb386d986f7034487b60c22fb6a808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivity: 100
+  clampAngle: 80
 --- !u!1 &1894259708
 GameObject:
   m_ObjectHideFlags: 0

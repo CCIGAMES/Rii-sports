@@ -29,12 +29,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""306e9ca7-233a-4be3-8051-4ebef48113bd"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""ScaleVector2(x=2,y=2)"",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""MouseX"",
