@@ -1,22 +1,75 @@
-﻿using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace FMODUnity
 {
     [AddComponentMenu("FMOD Studio/FMOD Studio Listener")]
     public class StudioListener : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject attenuationObject;
+
 #if UNITY_PHYSICS_EXIST
-        Rigidbody rigidBody;
+        private Rigidbody rigidBody;
 #endif
 #if UNITY_PHYSICS2D_EXIST
-        Rigidbody2D rigidBody2D;
+        private Rigidbody2D rigidBody2D;
 #endif
 
-        public GameObject attenuationObject;
+        private static List<StudioListener> listeners = new List<StudioListener>();
 
-        public int ListenerNumber = -1;
+        public static int ListenerCount
+        {
+            get
+            {
+                return listeners.Count;
+            }
+        }
 
-        void OnEnable()
+        public int ListenerNumber
+        {
+            get
+            {
+                return listeners.IndexOf(this);
+            }
+        }
+
+        public static float DistanceToNearestListener(Vector3 position)
+        {
+            float result = float.MaxValue;
+            for (int i = 0; i < listeners.Count; i++)
+            {
+                result = Mathf.Min(result, Vector3.Distance(position, listeners[i].transform.position));
+            }
+            return result;
+        }
+
+        private static void AddListener(StudioListener listener)
+        {
+            // Is the listener already in the list?
+            if (listeners.Contains(listener))
+            {
+                Debug.LogWarning(string.Format(("[FMOD] Listener has already been added at index {0}."), listener.ListenerNumber));
+                return;
+            }
+
+            // If already at the max numListeners
+            if (listeners.Count >= FMOD.CONSTANTS.MAX_LISTENERS)
+            {
+                Debug.LogWarning(string.Format(("[FMOD] Max number of listeners reached : {0}."), FMOD.CONSTANTS.MAX_LISTENERS));
+            }
+
+            listeners.Add(listener);
+            RuntimeManager.StudioSystem.setNumListeners(Mathf.Clamp(listeners.Count, 1, FMOD.CONSTANTS.MAX_LISTENERS));
+        }
+
+        private static void RemoveListener(StudioListener listener)
+        {
+            listeners.Remove(listener);
+            RuntimeManager.StudioSystem.setNumListeners(Mathf.Clamp(listeners.Count, 1, FMOD.CONSTANTS.MAX_LISTENERS));
+        }
+
+        private void OnEnable()
         {
             RuntimeUtils.EnforceLibraryOrder();
 #if UNITY_PHYSICS_EXIST
@@ -25,15 +78,15 @@ namespace FMODUnity
 #if UNITY_PHYSICS2D_EXIST
             rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
 #endif
-            ListenerNumber = RuntimeManager.AddListener(this);
+            AddListener(this);
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
-            RuntimeManager.RemoveListener(this);
+            RemoveListener(this);
         }
 
-        void Update()
+        private void Update()
         {
             if (ListenerNumber >= 0 && ListenerNumber < FMOD.CONSTANTS.MAX_LISTENERS)
             {
@@ -41,7 +94,7 @@ namespace FMODUnity
             }
         }
 
-        void SetListenerLocation()
+        private void SetListenerLocation()
         {
 #if UNITY_PHYSICS_EXIST
             if (rigidBody)
