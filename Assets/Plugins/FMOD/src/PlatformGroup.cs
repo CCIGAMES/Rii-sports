@@ -9,7 +9,7 @@ namespace FMODUnity
     public class PlatformGroup : Platform
     {
         [SerializeField]
-        private string displayName;
+        public string displayName;
 
         [SerializeField]
         private Legacy.Platform legacyIdentifier;

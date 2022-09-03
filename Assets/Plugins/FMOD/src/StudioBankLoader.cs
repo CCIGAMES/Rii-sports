@@ -13,8 +13,8 @@ namespace FMODUnity
         public string CollisionTag;
         public bool PreloadSamples;
         private bool isQuitting;
-
-        private void HandleGameEvent(LoaderGameEvent gameEvent)
+        
+        void HandleGameEvent(LoaderGameEvent gameEvent)
         {
             if (LoadEvent == gameEvent)
             {
@@ -26,18 +26,18 @@ namespace FMODUnity
             }
         }
 
-        private void Start()
+        void Start()
         {
             RuntimeUtils.EnforceLibraryOrder();
             HandleGameEvent(LoaderGameEvent.ObjectStart);
         }
 
-        private void OnApplicationQuit()
+        void OnApplicationQuit()
         {
             isQuitting = true;
         }
 
-        private void OnDestroy()
+        void OnDestroy()
         {
             if (!isQuitting)
             {
@@ -46,7 +46,7 @@ namespace FMODUnity
         }
 
 #if UNITY_PHYSICS_EXIST
-        private void OnTriggerEnter(Collider other)
+        void OnTriggerEnter(Collider other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
             {
@@ -54,7 +54,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnTriggerExit(Collider other)
+        void OnTriggerExit(Collider other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
             {
@@ -64,7 +64,7 @@ namespace FMODUnity
 #endif
 
 #if UNITY_PHYSICS2D_EXIST
-        private void OnTriggerEnter2D(Collider2D other)
+        void OnTriggerEnter2D(Collider2D other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
             {
@@ -72,7 +72,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnTriggerExit2D(Collider2D other)
+        void OnTriggerExit2D(Collider2D other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
             {
@@ -81,12 +81,12 @@ namespace FMODUnity
         }
 #endif
 
-        private void OnEnable()
+        void OnEnable()
         {
             HandleGameEvent(LoaderGameEvent.ObjectEnable);
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
             HandleGameEvent(LoaderGameEvent.ObjectDisable);
         }

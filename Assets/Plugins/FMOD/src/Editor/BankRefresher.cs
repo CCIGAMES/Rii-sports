@@ -14,7 +14,7 @@ namespace FMODUnity
         private static bool autoRefresh = true;
         private static float nextFilePollTime = float.MinValue;
 
-        private const int FilePollPeriod = 5;
+        const int FilePollPeriod = 5;
 
         public static void DisableAutoRefresh()
         {
@@ -34,12 +34,12 @@ namespace FMODUnity
             EditorApplication.update += Update;
         }
 
-        private static void OnSourceFileChanged(object source, FileSystemEventArgs e)
+        static void OnSourceFileChanged(object source, FileSystemEventArgs e)
         {
             sourceFilesChanged = true;
         }
 
-        private static void Update()
+        static void Update()
         {
             UpdateFileWatcherPath();
             CheckSourceFilesChanged();
@@ -129,7 +129,7 @@ namespace FMODUnity
             BankRefreshWindow.HandleBankRefresh(result);
         }
 
-        private static bool IsWindowEnabled()
+        static bool IsWindowEnabled()
         {
             Settings settings = Settings.Instance;
 

@@ -16,18 +16,18 @@ namespace FMODUnity
             HandleGameEvent(EmitterGameEvent.ObjectDestroy);
         }
 
-        private void OnEnable()
+        void OnEnable()
         {
             HandleGameEvent(EmitterGameEvent.ObjectEnable);
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
             HandleGameEvent(EmitterGameEvent.ObjectDisable);
         }
 
         #if UNITY_PHYSICS_EXIST
-        private void OnTriggerEnter(Collider other)
+        void OnTriggerEnter(Collider other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag) || (other.attachedRigidbody && other.attachedRigidbody.CompareTag(CollisionTag)))
             {
@@ -35,7 +35,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnTriggerExit(Collider other)
+        void OnTriggerExit(Collider other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag) || (other.attachedRigidbody && other.attachedRigidbody.CompareTag(CollisionTag)))
             {
@@ -45,7 +45,7 @@ namespace FMODUnity
         #endif
 
         #if UNITY_PHYSICS2D_EXIST
-        private void OnTriggerEnter2D(Collider2D other)
+        void OnTriggerEnter2D(Collider2D other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
             {
@@ -53,7 +53,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnTriggerExit2D(Collider2D other)
+        void OnTriggerExit2D(Collider2D other)
         {
             if (string.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
             {
@@ -62,42 +62,42 @@ namespace FMODUnity
         }
         #endif
 
-        private void OnCollisionEnter()
+        void OnCollisionEnter()
         {
             HandleGameEvent(EmitterGameEvent.CollisionEnter);
         }
 
-        private void OnCollisionExit()
+        void OnCollisionExit()
         {
             HandleGameEvent(EmitterGameEvent.CollisionExit);
         }
 
-        private void OnCollisionEnter2D()
+        void OnCollisionEnter2D()
         {
             HandleGameEvent(EmitterGameEvent.CollisionEnter2D);
         }
 
-        private void OnCollisionExit2D()
+        void OnCollisionExit2D()
         {
             HandleGameEvent(EmitterGameEvent.CollisionExit2D);
         }
 
-        private void OnMouseEnter()
+        void OnMouseEnter()
         {
             HandleGameEvent(EmitterGameEvent.MouseEnter);
         }
 
-        private void OnMouseExit()
+        void OnMouseExit()
         {
             HandleGameEvent(EmitterGameEvent.MouseExit);
         }
 
-        private void OnMouseDown()
+        void OnMouseDown()
         {
             HandleGameEvent(EmitterGameEvent.MouseDown);
         }
 
-        private void OnMouseUp()
+        void OnMouseUp()
         {
             HandleGameEvent(EmitterGameEvent.MouseUp);
         }

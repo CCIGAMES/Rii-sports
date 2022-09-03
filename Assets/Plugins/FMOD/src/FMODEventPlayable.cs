@@ -5,39 +5,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
-using UnityEngine.Serialization;
 
 namespace FMODUnity
 {
     [System.Serializable]
     public class FMODEventPlayable : PlayableAsset, ITimelineClipAsset
     {
-        [FormerlySerializedAs("template")]
-        public FMODEventPlayableBehavior Template = new FMODEventPlayableBehavior();
+        public FMODEventPlayableBehavior template = new FMODEventPlayableBehavior();
 
-        [FormerlySerializedAs("eventLength")]
-        public float EventLength; //In seconds.
+        public float eventLength; //In seconds.
 
         [Obsolete("Use the eventReference field instead")]
         [SerializeField]
         public string eventName;
 
-        [FormerlySerializedAs("eventReference")]
         [SerializeField]
-        public EventReference EventReference;
+        public EventReference eventReference;
 
-        [FormerlySerializedAs("stopType")]
         [SerializeField]
-        public STOP_MODE StopType;
+        public STOP_MODE stopType;
 
-        [FormerlySerializedAs("parameters")]
         [SerializeField]
-        public ParamRef[] Parameters = new ParamRef[0];
+        public ParamRef[] parameters = new ParamRef[0];
 
         [NonSerialized]
-        public bool CachedParameters = false;
+        public bool cachedParameters = false;
 
-        private FMODEventPlayableBehavior behavior;
+        FMODEventPlayableBehavior behavior;
 
         public GameObject TrackTargetObject { get; set; }
 
@@ -45,13 +39,13 @@ namespace FMODUnity
         {
             get
             {
-                if (EventReference.IsNull)
+                if (eventReference.IsNull)
                 {
                     return base.duration;
                 }
                 else
                 {
-                    return EventLength;
+                    return eventLength;
                 }
             }
         }
@@ -66,21 +60,21 @@ namespace FMODUnity
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
 #if UNITY_EDITOR
-            if (!EventReference.IsNull)
+            if (!eventReference.IsNull)
 #else
-            if (!CachedParameters && !EventReference.IsNull)
+            if (!cachedParameters && !eventReference.IsNull)
 #endif
             {
-                FMOD.Studio.EventDescription eventDescription = RuntimeManager.GetEventDescription(EventReference);
+                FMOD.Studio.EventDescription eventDescription = RuntimeManager.GetEventDescription(eventReference);
 
-                for (int i = 0; i < Parameters.Length; i++)
+                for (int i = 0; i < parameters.Length; i++)
                 {
                     FMOD.Studio.PARAMETER_DESCRIPTION parameterDescription;
-                    eventDescription.getParameterDescriptionByName(Parameters[i].Name, out parameterDescription);
-                    Parameters[i].ID = parameterDescription.id;
+                    eventDescription.getParameterDescriptionByName(parameters[i].Name, out parameterDescription);
+                    parameters[i].ID = parameterDescription.id;
                 }
 
-                List<ParameterAutomationLink> parameterLinks = Template.ParameterLinks;
+                List<ParameterAutomationLink> parameterLinks = template.parameterLinks;
 
                 for (int i = 0; i < parameterLinks.Count; i++)
                 {
@@ -89,16 +83,16 @@ namespace FMODUnity
                     parameterLinks[i].ID = parameterDescription.id;
                 }
 
-                CachedParameters = true;
+                cachedParameters = true;
             }
 
-            var playable = ScriptPlayable<FMODEventPlayableBehavior>.Create(graph, Template);
+            var playable = ScriptPlayable<FMODEventPlayableBehavior>.Create(graph, template);
             behavior = playable.GetBehaviour();
 
             behavior.TrackTargetObject = TrackTargetObject;
-            behavior.EventReference = EventReference;
-            behavior.StopType = StopType;
-            behavior.Parameters = Parameters;
+            behavior.eventReference = eventReference;
+            behavior.stopType = stopType;
+            behavior.parameters = parameters;
             behavior.OwningClip = OwningClip;
 
             return playable;
@@ -107,26 +101,19 @@ namespace FMODUnity
 #if UNITY_EDITOR
         public void UpdateEventDuration(float duration)
         {
-            EventLength = duration / 1000f;
+            eventLength = duration / 1000f;
         }
 
         public void OnValidate()
         {
-            if (OwningClip != null)
+            if (OwningClip != null && !eventReference.IsNull)
             {
-                if (EventReference.IsNull)
-                {
-                    OwningClip.displayName = "FMODEventPlayable";
-                }
-                else
-                {
-                    int index = EventReference.Path.LastIndexOf("/");
-                    OwningClip.displayName = EventReference.Path.Substring(index + 1);
-                }
+                int index = eventReference.Path.LastIndexOf("/");
+                OwningClip.displayName = eventReference.Path.Substring(index + 1);
             }
-            if (behavior != null)
+            if (behavior != null && !behavior.eventReference.IsNull)
             {
-                behavior.EventReference = EventReference;
+                behavior.eventReference = eventReference;
             }
         }
 #endif //UNITY_EDITOR
@@ -150,32 +137,11 @@ namespace FMODUnity
     [Serializable]
     public class FMODEventPlayableBehavior : PlayableBehaviour
     {
-        public FMODEventPlayableBehavior()
-        {
-            CurrentVolume = 1;
-        }
-
-        public class EventArgs : System.EventArgs
-        {
-            public FMOD.Studio.EventInstance eventInstance { get; set; }
-        }
-
-        public static event System.EventHandler<EventArgs> Enter;
-        public static event System.EventHandler<EventArgs> Exit;
-        public static event System.EventHandler<EventArgs> GraphStop;
-
-        [FormerlySerializedAs("eventReference")]
-        public EventReference EventReference;
-
-        [FormerlySerializedAs("stopType")]
-        public STOP_MODE StopType = STOP_MODE.AllowFadeout;
-
-        [FormerlySerializedAs("parameters")]
+        public EventReference eventReference;
+        public STOP_MODE stopType = STOP_MODE.AllowFadeout;
         [NotKeyable]
-        public ParamRef[] Parameters = new ParamRef[0];
-
-        [FormerlySerializedAs("parameterLinks")]
-        public List<ParameterAutomationLink> ParameterLinks = new List<ParameterAutomationLink>();
+        public ParamRef[] parameters = new ParamRef[0];
+        public List<ParameterAutomationLink> parameterLinks = new List<ParameterAutomationLink>();
 
         [NonSerialized]
         public GameObject TrackTargetObject;
@@ -183,22 +149,18 @@ namespace FMODUnity
         [NonSerialized]
         public TimelineClip OwningClip;
 
-        [FormerlySerializedAs("parameterAutomation")]
-        public AutomatableSlots ParameterAutomation;
+        public AutomatableSlots parameterAutomation;
 
         private bool isPlayheadInside = false;
 
         private FMOD.Studio.EventInstance eventInstance;
-
-        public float ClipStartTime { get; private set; } = 0.0f;
-
-        public float CurrentVolume { get; private set; }
+        private float currentVolume = 1;
 
         protected void PlayEvent()
         {
-            if (!EventReference.IsNull)
+            if (!eventReference.IsNull)
             {
-                eventInstance = RuntimeManager.CreateInstance(EventReference);
+                eventInstance = RuntimeManager.CreateInstance(eventReference);
 
                 // Only attach to object if the game is actually playing, not auditioning.
                 if (Application.isPlaying && TrackTargetObject)
@@ -226,62 +188,38 @@ namespace FMODUnity
                     eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(Vector3.zero));
                 }
 
-                foreach (var param in Parameters)
+                foreach (var param in parameters)
                 {
                     eventInstance.setParameterByID(param.ID, param.Value);
                 }
 
-                eventInstance.setVolume(CurrentVolume);
-                eventInstance.setTimelinePosition((int)(ClipStartTime * 1000.0f));
+                eventInstance.setVolume(currentVolume);
                 eventInstance.start();
             }
         }
 
-        protected virtual void OnEnter()
+        public void OnEnter()
         {
             if (!isPlayheadInside)
             {
+                PlayEvent();
                 isPlayheadInside = true;
-
-                if (Application.isPlaying)
-                {
-                    PlayEvent();
-                }
-                else
-                {
-                    // Handled by the editor auditioning system.
-                    EventArgs args = new EventArgs();
-                    Enter.Invoke(this, args);
-                    eventInstance = args.eventInstance;
-                }
             }
         }
 
-        protected virtual void OnExit()
+        public void OnExit()
         {
             if (isPlayheadInside)
             {
-                isPlayheadInside = false;
-
-                if (Application.isPlaying)
+                if (eventInstance.isValid())
                 {
-                    if (eventInstance.isValid())
+                    if (stopType != STOP_MODE.None)
                     {
-                        if (StopType != STOP_MODE.None)
-                        {
-                            eventInstance.stop(StopType == STOP_MODE.Immediate ? FMOD.Studio.STOP_MODE.IMMEDIATE : FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-                        }
-                        eventInstance.release();
-                        eventInstance.clearHandle();
+                        eventInstance.stop(stopType == STOP_MODE.Immediate ? FMOD.Studio.STOP_MODE.IMMEDIATE : FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                     }
+                    eventInstance.release();
                 }
-                else
-                {
-                    // Handled by the editor auditioning system.
-                    EventArgs args = new EventArgs();
-                    args.eventInstance = eventInstance;
-                    Exit.Invoke(this, args);
-                }
+                isPlayheadInside = false;
             }
         }
 
@@ -289,9 +227,9 @@ namespace FMODUnity
         {
             if (eventInstance.isValid())
             {
-                foreach (ParameterAutomationLink link in ParameterLinks)
+                foreach (ParameterAutomationLink link in parameterLinks)
                 {
-                    float value = ParameterAutomation.GetValue(link.Slot);
+                    float value = parameterAutomation.GetValue(link.Slot);
                     eventInstance.setParameterByID(link.ID, value);
                 }
             }
@@ -299,9 +237,9 @@ namespace FMODUnity
 
         public void UpdateBehavior(float time, float volume)
         {
-            if (volume != CurrentVolume)
+            if (volume != currentVolume)
             {
-                CurrentVolume = volume;
+                currentVolume = volume;
 
                 if (eventInstance.isValid())
                 {
@@ -311,7 +249,6 @@ namespace FMODUnity
 
             if ((time >= OwningClip.start) && (time < OwningClip.end))
             {
-                ClipStartTime = time - (float)OwningClip.start;
                 OnEnter();
             }
             else
@@ -323,22 +260,11 @@ namespace FMODUnity
         public override void OnGraphStop(Playable playable)
         {
             isPlayheadInside = false;
-
-            if (Application.isPlaying)
+            if (eventInstance.isValid())
             {
-                if (eventInstance.isValid())
-                {
-                    eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                    eventInstance.release();
-                    RuntimeManager.StudioSystem.update();
-                }
-            }
-            else
-            {
-                // Handled by the editor auditioning system.
-                EventArgs args = new EventArgs();
-                args.eventInstance = eventInstance;
-                GraphStop.Invoke(this, args);
+                eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                eventInstance.release();
+                RuntimeManager.StudioSystem.update();
             }
         }
     }

@@ -30,12 +30,12 @@ namespace FMODUnity
         private MultiColumnHeaderState taskHeaderState;
 
         [SerializeField]
-        private bool reloadingFromSerializedState = false;
+        bool reloadingFromSerializedState = false;
 
         [NonSerialized]
         private GUIContent statusContent = GUIContent.none;
 
-        private IEnumerator<string> processingState;
+        IEnumerator<string> processingState;
 
         [MenuItem(ReorganizerMenuItemPath)]
         public static void ShowWindow()
@@ -49,7 +49,7 @@ namespace FMODUnity
         }
 
         [Serializable]
-        private class Task
+        class Task
         {
             public int step = int.MaxValue;
             
@@ -153,7 +153,7 @@ namespace FMODUnity
         {
         }
 
-        private void OnEnable()
+        void OnEnable()
         {
             {
                 MultiColumnHeaderState newHeaderState = TaskView.CreateHeaderState();
@@ -195,7 +195,7 @@ namespace FMODUnity
             StopProcessing();
         }
 
-        private void PopulateTasks()
+        void PopulateTasks()
         {
             tasks.Clear();
 
@@ -218,7 +218,7 @@ namespace FMODUnity
             return !tasks.Any(t => t.type != Task.Type.Missing);
         }
 
-        private void SetDefaultStatus()
+        void SetDefaultStatus()
         {
             int missingCount = tasks.Count(t => t.type == Task.Type.Missing);
 
@@ -244,7 +244,7 @@ namespace FMODUnity
             }
         }
 
-        private void SetTaskSequence()
+        void SetTaskSequence()
         {
             int step = 1;
 
@@ -270,12 +270,12 @@ namespace FMODUnity
             tasks.Sort((a, b) => a.step.CompareTo(b.step));
         }
 
-        private void UpdateTaskCount()
+        void UpdateTaskCount()
         {
             taskCount = tasks.Count(t => t.status == Task.Status.Pending);
         }
 
-        private class TaskView : TreeView
+        class TaskView : TreeView
         {
             private List<Task> tasks;
 
@@ -788,7 +788,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnTaskSelected(Task task)
+        void OnTaskSelected(Task task)
         {
             if (task != null)
             {
@@ -800,7 +800,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnGUI()
+        void OnGUI()
         {
             if (focusedWindow == this
                 && Event.current.type == EventType.KeyDown
@@ -918,7 +918,8 @@ namespace FMODUnity
 
         private struct TaskGenerator
         {
-            private const string AssetsFolder = "Assets";
+            const string AssetsFolder = "Assets";
+
             private const string FMODRoot = "Assets/Plugins/FMOD";
             private const string FMODSource = FMODRoot + "/src";
 
@@ -1273,7 +1274,7 @@ namespace FMODUnity
             }
         }
 
-        private static bool AssetExists(string path)
+        static bool AssetExists(string path)
         {
             return EditorUtils.AssetExists(path);
         }
@@ -1297,7 +1298,7 @@ namespace FMODUnity
             }
         }
 
-        private static bool IsFolderEmpty(string path)
+        static bool IsFolderEmpty(string path)
         {
             return AssetDatabase.FindAssets(string.Empty, new string[] { path }).Length == 0;
         }
@@ -1315,7 +1316,7 @@ namespace FMODUnity
             }
         }
 
-        private static IEnumerable<string> RemoveFolderIfEmpty(Task task)
+        static IEnumerable<string> RemoveFolderIfEmpty(Task task)
         {
             if (!Directory.Exists(Application.dataPath + "/../" + task.source))
             {

@@ -20,22 +20,31 @@ using System.Net.Sockets;
 
 namespace FMODUnity
 {
-    public class EditorUtils : MonoBehaviour
+    public enum PreviewState
+    {
+        Stopped,
+        Playing,
+        Paused,
+    }
+
+    class EditorUtils : MonoBehaviour
     {
         public const string BuildFolder = "Build";
 
-        private static FMOD.Studio.System system;
-        private static FMOD.SPEAKERMODE speakerMode;
-        private static string encryptionKey;
+        static FMOD.Studio.System system;
+        static FMOD.SPEAKERMODE speakerMode;
+        static string encryptionKey;
 
         private static List<FMOD.Studio.Bank> loadedPreviewBanks = new List<FMOD.Studio.Bank>();
-        private static FMOD.Studio.EventDescription previewEventDesc;
-        private static FMOD.Studio.EventInstance previewEventInstance;
+        static FMOD.Studio.EventDescription previewEventDesc;
+        static FMOD.Studio.EventInstance previewEventInstance;
 
-        private const int StudioScriptPort = 3663;
-        private static NetworkStream networkStream = null;
-        private static Socket socket = null;
-        private static IAsyncResult socketConnection = null;
+        static PreviewState previewState;
+
+        const int StudioScriptPort = 3663;
+        static NetworkStream networkStream = null;
+        static Socket socket = null;
+        static IAsyncResult socketConnection = null;
 
         public static void CheckResult(FMOD.RESULT result)
         {
@@ -356,7 +365,7 @@ namespace FMODUnity
 #if !FMOD_STORE_UPLOAD
         [InitializeOnLoadMethod]
 #endif
-        private static void Startup()
+        static void Startup()
         {
             EditorApplication.update += Update;
             AssemblyReloadEvents.beforeAssemblyReload += HandleBeforeAssemblyReload;
@@ -366,12 +375,12 @@ namespace FMODUnity
             EditorApplication.update += CallStartupMethodsWhenReady;
         }
 
-        private static void HandleBeforeAssemblyReload()
+        static void HandleBeforeAssemblyReload()
         {
             DestroySystem();
         }
 
-        private static void HandleOnPausedModeChanged(PauseState state)
+        static void HandleOnPausedModeChanged(PauseState state)
         {
             if (RuntimeManager.IsInitialized && RuntimeManager.HaveMasterBanksLoaded)
             {
@@ -380,7 +389,7 @@ namespace FMODUnity
             }
         }
 
-        private static void HandleOnPlayModeChanged(PlayModeStateChange state)
+        static void HandleOnPlayModeChanged(PlayModeStateChange state)
         {
             // Entering Play Mode will cause scripts to reload, losing all state
             // This is the last chance to clean up FMOD and avoid a leak.
@@ -390,7 +399,7 @@ namespace FMODUnity
             }
         }
 
-        private static void Update()
+        static void Update()
         {
             // Update the editor system
             if (system.isValid())
@@ -408,23 +417,18 @@ namespace FMODUnity
                 }
             }
 
-            for (int i = 0; i < previewEventInstances.Count; i++)
+            if (previewEventInstance.isValid())
             {
-                var instance = previewEventInstances[i];
-                if (instance.isValid())
+                FMOD.Studio.PLAYBACK_STATE state;
+                previewEventInstance.getPlaybackState(out state);
+                if (previewState == PreviewState.Playing && state == FMOD.Studio.PLAYBACK_STATE.STOPPED)
                 {
-                    FMOD.Studio.PLAYBACK_STATE state;
-                    instance.getPlaybackState(out state);
-                    if (state == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                    {
-                        PreviewStop(instance);
-                        i--;
-                    }
+                    PreviewStop();
                 }
             }
         }
 
-        private static void CallStartupMethodsWhenReady()
+        static void CallStartupMethodsWhenReady()
         {
             if (EditorApplication.isUpdating)
             {
@@ -444,45 +448,6 @@ namespace FMODUnity
             Legacy.CleanTemporaryChanges();
             CleanObsoleteFiles();
 
-#if UNITY_TIMELINE_EXIST
-            // Register timeline event receivers.
-            FMODEventPlayableBehavior.Enter += (sender, args) =>
-            {
-                FMODEventPlayableBehavior behavior = sender as FMODEventPlayableBehavior;
-                if (!string.IsNullOrEmpty(behavior.EventReference.Path))
-                {
-                    LoadPreviewBanks();
-                    EditorEventRef eventRef = EventManager.EventFromPath(behavior.EventReference.Path);
-                    Dictionary<string, float> paramValues = new Dictionary<string, float>();
-                    foreach (EditorParamRef param in eventRef.Parameters)
-                    {
-                        paramValues.Add(param.Name, param.Default);
-                    }
-                    foreach (ParamRef param in behavior.Parameters)
-                    {
-                        paramValues[param.Name] = param.Value;
-                    }
-
-                    args.eventInstance = PreviewEvent(eventRef, paramValues, behavior.CurrentVolume, behavior.ClipStartTime);
-                }
-            };
-
-            FMODEventPlayableBehavior.Exit += (sender, args) =>
-            {
-                FMODEventPlayableBehavior behavior = sender as FMODEventPlayableBehavior;
-                if (behavior.StopType != STOP_MODE.None)
-                {
-                    FMOD.Studio.STOP_MODE stopType = behavior.StopType == STOP_MODE.Immediate ? FMOD.Studio.STOP_MODE.IMMEDIATE : FMOD.Studio.STOP_MODE.ALLOWFADEOUT;
-                    PreviewStop(args.eventInstance, stopType);
-                }
-            };
-
-            FMODEventPlayableBehavior.GraphStop += (sender, args) =>
-            {
-                PreviewStop(args.eventInstance);
-            };
-#endif
-
             BuildStatusWatcher.Startup();
             BankRefresher.Startup();
             BoltIntegration.Startup();
@@ -490,14 +455,14 @@ namespace FMODUnity
             SetupWizardWindow.Startup();
         }
 
-        private static void RecreateSystem()
+        static void RecreateSystem()
         {
-            StopAllPreviews();
+            PreviewStop();
             DestroySystem();
             CreateSystem();
         }
 
-        private static void DestroySystem()
+        static void DestroySystem()
         {
             if (system.isValid())
             {
@@ -508,7 +473,7 @@ namespace FMODUnity
             }
         }
 
-        private static void CreateSystem()
+        static void CreateSystem()
         {
             RuntimeUtils.DebugLog("FMOD Studio: Creating editor system instance");
             RuntimeUtils.EnforceLibraryOrder();
@@ -605,7 +570,7 @@ namespace FMODUnity
         }
 
         [MenuItem("FMOD/Help/Getting Started", priority = 2)]
-        private static void OnlineGettingStarted()
+        static void OnlineGettingStarted()
         {
             OpenOnlineDocumentation("unity", "user-guide");
         }
@@ -617,26 +582,26 @@ namespace FMODUnity
         }
 
         [MenuItem("FMOD/Help/API Manual", priority = 4)]
-        private static void OnlineAPIDocs()
+        static void OnlineAPIDocs()
         {
             OpenOnlineDocumentation("api");
         }
 
         [MenuItem("FMOD/Help/Support Forum", priority = 16)]
-        private static void OnlineQA()
+        static void OnlineQA()
         {
             Application.OpenURL("https://qa.fmod.com/");
         }
 
         [MenuItem("FMOD/Help/Revision History", priority = 5)]
-        private static void OnlineRevisions()
+        static void OnlineRevisions()
         {
             OpenOnlineDocumentation("api", "welcome-revision-history");
         }
 
         public static void OpenOnlineDocumentation(string section, string page = null, string anchor = null)
         {
-            const string Prefix = "https://fmod.com/docs/";
+            const string Prefix = "https://fmod.com/resources/documentation-";
             string version = string.Format("{0:X}.{1:X}", FMOD.VERSION.number >> 16, (FMOD.VERSION.number >> 8) & 0xFF);
             string url;
 
@@ -644,16 +609,16 @@ namespace FMODUnity
             {
                 if (!string.IsNullOrEmpty(anchor))
                 {
-                    url = string.Format("{0}/{1}/{2}/{3}.html#{4}", Prefix, version, section, page, anchor);
+                    url = string.Format("{0}{1}?version={2}&page={3}.html#{4}", Prefix, section, version, page, anchor);
                 }
                 else
                 {
-                    url = string.Format("{0}/{1}/{2}/{3}.html", Prefix, version, section, page);
+                    url = string.Format("{0}{1}?version={2}&page={3}.html", Prefix, section, version, page);
                 }
             }
             else
             {
-                url = string.Format("{0}/{1}/{2}", Prefix, version, section);
+                url = string.Format("{0}{1}?version={2}", Prefix, section, version);
             }
                 
             Application.OpenURL(url);
@@ -669,14 +634,17 @@ namespace FMODUnity
             CheckResult(lowlevel.getVersion(out version));
 
             string text = string.Format(
-                "Version: {0}\n\nCopyright \u00A9 Firelight Technologies Pty, Ltd. 2014-2022 \n\n" +
+                "Version: {0}\n\nCopyright \u00A9 Firelight Technologies Pty, Ltd. 2014-2021 \n\n" +
                 "See LICENSE.TXT for additional license information.",
                 VersionString(version));
 
             EditorUtility.DisplayDialog("FMOD Studio Unity Integration", text, "OK");
         }
 
-        private static List<FMOD.Studio.EventInstance> previewEventInstances = new List<FMOD.Studio.EventInstance>();
+        public static PreviewState PreviewState
+        {
+            get { return previewState; }
+        }
 
         public static bool PreviewBanksLoaded
         {
@@ -713,18 +681,33 @@ namespace FMODUnity
             loadedPreviewBanks.Clear();
         }
 
-        public static FMOD.Studio.EventInstance PreviewEvent(EditorEventRef eventRef, Dictionary<string, float> previewParamValues, float volume = 1, float startTime = 0.0f)
+        public static void PreviewEvent(EditorEventRef eventRef, Dictionary<string, float> previewParamValues)
         {
-            FMOD.Studio.EventDescription eventDescription;
-            FMOD.Studio.EventInstance eventInstance;
+            bool load = true;
+            if (previewEventDesc.isValid())
+            {
+                FMOD.GUID guid;
+                previewEventDesc.getID(out guid);
+                if (guid == eventRef.Guid)
+                {
+                    load = false;
+                }
+                else
+                {
+                    PreviewStop();
+                }
+            }
 
-            CheckResult(System.getEventByID(eventRef.Guid, out eventDescription));
-            CheckResult(eventDescription.createInstance(out eventInstance));
+            if (load)
+            {
+                CheckResult(System.getEventByID(eventRef.Guid, out previewEventDesc));
+                CheckResult(previewEventDesc.createInstance(out previewEventInstance));
+            }
 
             foreach (EditorParamRef param in eventRef.Parameters)
             {
                 FMOD.Studio.PARAMETER_DESCRIPTION paramDesc;
-                CheckResult(eventDescription.getParameterDescriptionByName(param.Name, out paramDesc));
+                CheckResult(previewEventDesc.getParameterDescriptionByName(param.Name, out paramDesc));
                 param.ID = paramDesc.id;
                 if (param.IsGlobal)
                 {
@@ -732,48 +715,56 @@ namespace FMODUnity
                 }
                 else
                 {
-                    CheckResult(eventInstance.setParameterByID(param.ID, previewParamValues[param.Name]));
+                    PreviewUpdateParameter(param.ID, previewParamValues[param.Name]);
                 }
             }
 
-            CheckResult(eventInstance.setVolume(volume));
-            CheckResult(eventInstance.setTimelinePosition((int)(startTime * 1000.0f)));
-            CheckResult(eventInstance.start());
-
-            previewEventInstances.Add(eventInstance);
-
-            return eventInstance;
+            CheckResult(previewEventInstance.start());
+            previewState = PreviewState.Playing;
         }
 
-        public static void PreviewPause(FMOD.Studio.EventInstance eventInstance)
+        public static void PreviewUpdateParameter(FMOD.Studio.PARAMETER_ID id, float paramValue)
         {
-            if (eventInstance.isValid() && previewEventInstances.Contains(eventInstance))
+            if (previewEventInstance.isValid())
+            {
+                CheckResult(previewEventInstance.setParameterByID(id, paramValue));
+            }
+        }
+
+        public static void PreviewUpdatePosition(float distance, float orientation)
+        {
+            if (previewEventInstance.isValid())
+            {
+                // Listener at origin
+                FMOD.ATTRIBUTES_3D pos = new FMOD.ATTRIBUTES_3D();
+                pos.position.x = (float)Math.Sin(orientation) * distance;
+                pos.position.y = (float)Math.Cos(orientation) * distance;
+                pos.forward.x = 1.0f;
+                pos.up.z = 1.0f;
+                CheckResult(previewEventInstance.set3DAttributes(pos));
+            }
+        }
+
+        public static void PreviewPause()
+        {
+            if (previewEventInstance.isValid())
             {
                 bool paused;
-                CheckResult(eventInstance.getPaused(out paused));
-                CheckResult(eventInstance.setPaused(!paused));
+                CheckResult(previewEventInstance.getPaused(out paused));
+                CheckResult(previewEventInstance.setPaused(!paused));
+                previewState = paused ? PreviewState.Playing : PreviewState.Paused;
             }
         }
 
-        public static void PreviewStop(FMOD.Studio.EventInstance eventInstance, FMOD.Studio.STOP_MODE stopMode = FMOD.Studio.STOP_MODE.IMMEDIATE)
+        public static void PreviewStop()
         {
-            if (previewEventInstances.Contains(eventInstance))
+            if (previewEventInstance.isValid())
             {
-                previewEventInstances.Remove(eventInstance);
-                if (eventInstance.isValid())
-                {
-                    eventInstance.stop(stopMode);
-                    eventInstance.release();
-                    eventInstance.clearHandle();
-                }
-            }
-        }
-
-        public static void StopAllPreviews()
-        {
-            foreach (FMOD.Studio.EventInstance eventInstance in previewEventInstances)
-            {
-                PreviewStop(eventInstance);
+                previewEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                previewEventInstance.release();
+                previewEventInstance.clearHandle();
+                previewEventDesc.clearHandle();
+                previewState = PreviewState.Stopped;
             }
         }
 
@@ -803,7 +794,7 @@ namespace FMODUnity
             return data;
         }
 
-        private static NetworkStream ScriptStream
+        static NetworkStream ScriptStream
         {
             get
             {
@@ -1234,38 +1225,18 @@ namespace FMODUnity
 
     public class StagingSystem
     {
-        private static string PlatformsFolder => $"Assets/{RuntimeUtils.PluginBasePath}/platforms";
-        private static string StagingFolder => $"Assets/{RuntimeUtils.PluginBasePath}/staging";
-        private const string AnyCPU = "AnyCPU";
+        static string PlatformsFolder => $"Assets/{RuntimeUtils.PluginBasePath}/platforms";
+        static string StagingFolder => $"Assets/{RuntimeUtils.PluginBasePath}/staging";
+        const string AnyCPU = "AnyCPU";
 
-        private static readonly LibInfo[] LibrariesToUpdate = {
+        static readonly LibInfo[] LibrariesToUpdate = {
             new LibInfo() {cpu = "x86", os = "Windows",  lib = "fmodstudioL.dll", platform = "win", buildTarget = BuildTarget.StandaloneWindows},
             new LibInfo() {cpu = "x86_64", os = "Windows", lib = "fmodstudioL.dll", platform = "win", buildTarget = BuildTarget.StandaloneWindows64},
             new LibInfo() {cpu = "x86_64", os = "Linux", lib = "libfmodstudioL.so", platform = "linux", buildTarget = BuildTarget.StandaloneLinux64},
             new LibInfo() {cpu = AnyCPU, os = "OSX", lib = "fmodstudioL.bundle", platform = "mac", buildTarget = BuildTarget.StandaloneOSX},
         };
 
-        public static bool SourceLibsExist
-        {
-            get
-            {
-                return LibrariesToUpdate.Any((info) =>
-                {
-                    string sourcePath = GetSourcePath(info);
-
-                    if (sourcePath != null)
-                    {
-                        return AssetImporter.GetAtPath(sourcePath) as PluginImporter != null;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                });
-            }
-        }
-
-        private struct LibInfo
+        struct LibInfo
         {
             public string cpu;
             public string os;
@@ -1509,12 +1480,12 @@ namespace FMODUnity
             }
         }
 
-        private static UpdateStep FindUpdateStep(Settings.SharedLibraryUpdateStages stage)
+        static UpdateStep FindUpdateStep(Settings.SharedLibraryUpdateStages stage)
         {
             return UpdateSteps.FirstOrDefault(s => s.Stage == stage);
         }
 
-        private static void ResetUpdateStage()
+        static void ResetUpdateStage()
         {
             Settings.Instance.SharedLibraryUpdateStage = Settings.SharedLibraryUpdateStages.Start;
             Settings.Instance.SharedLibraryTimeSinceStart = 0;
@@ -1652,9 +1623,9 @@ namespace FMODUnity
         public static Action OnBuildStarted;
         public static Action OnBuildEnded;
 
-        private static bool buildInProgress = false;
+        static bool buildInProgress = false;
 
-        private static void SetBuildInProgress(bool inProgress)
+        static void SetBuildInProgress(bool inProgress)
         {
             if (inProgress != buildInProgress)
             {
@@ -1681,7 +1652,7 @@ namespace FMODUnity
             }
         }
 
-        private static void PollBuildStatus()
+        static void PollBuildStatus()
         {
             SetBuildInProgress(BuildPipeline.isBuildingPlayer);
         }
@@ -1819,7 +1790,7 @@ namespace FMODUnity
 
     public class NoIndentScope : IDisposable
     {
-        private int oldIndentLevel;
+        int oldIndentLevel;
 
         public NoIndentScope()
         {

@@ -7,15 +7,15 @@ namespace FMODUnity
     {
         private static BankRefreshWindow instance = null;
 
-        private SerializedObject serializedSettings;
-        private SerializedProperty cooldown;
-        private SerializedProperty showWindow;
+        SerializedObject serializedSettings;
+        SerializedProperty cooldown;
+        SerializedProperty showWindow;
 
         private bool readyToRefreshBanks = false;
         private float closeTime = float.MaxValue;
         private string lastRefreshError = null;
 
-        private const float CloseDelay = 5;
+        const float CloseDelay = 5;
 
         public static bool IsVisible { get { return instance != null; } }
 
@@ -34,7 +34,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnEnable()
+        void OnEnable()
         {
             serializedSettings = new SerializedObject(Settings.Instance);
             cooldown = serializedSettings.FindProperty("BankRefreshCooldown");
@@ -51,7 +51,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnDestroy()
+        void OnDestroy()
         {
             if (instance == this)
             {
@@ -59,7 +59,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnInspectorUpdate()
+        void OnInspectorUpdate()
         {
             Repaint();
 
@@ -93,7 +93,7 @@ namespace FMODUnity
             }
         }
 
-        private void OnGUI()
+        void OnGUI()
         {
             serializedSettings.Update();
 
@@ -121,7 +121,7 @@ namespace FMODUnity
             }
         }
 
-        private void DrawStatus()
+        void DrawStatus()
         {
             GUIStyle labelStyle = new GUIStyle(EditorStyles.whiteLargeLabel);
             labelStyle.alignment = TextAnchor.MiddleCenter;
@@ -185,7 +185,7 @@ namespace FMODUnity
             }
         }
 
-        private static bool DrawCountdown(string text, float remainingTime, float totalTime, GUIStyle labelStyle)
+        static bool DrawCountdown(string text, float remainingTime, float totalTime, GUIStyle labelStyle)
         {
             GUILayout.Label(string.Format("{0} in {1}...", text, EditorUtils.DurationString(remainingTime)), labelStyle);
 
@@ -211,7 +211,7 @@ namespace FMODUnity
             return GUI.Button(buttonRect, cancelContent);
         }
 
-        private void DrawButtons()
+        void DrawButtons()
         {
             Rect rect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight * 2);
 

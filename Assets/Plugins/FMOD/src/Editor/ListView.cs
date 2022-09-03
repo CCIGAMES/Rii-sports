@@ -5,7 +5,7 @@ namespace FMODUnity
 {
     public class ListView : UnityEditorInternal.ReorderableList
     {
-        private const float ElementPadding = 2;
+        const float ElementPadding = 2;
 
         public DrawElementWithLabelDelegate drawElementWithLabelCallback;
 
@@ -31,7 +31,7 @@ namespace FMODUnity
             DoList(EditorGUI.IndentedRect(rect));
         }
 
-        private void DrawElementWrapper(Rect rect, int index, bool active, bool focused)
+        void DrawElementWrapper(Rect rect, int index, bool active, bool focused)
         {
             if (drawElementWithLabelCallback != null)
             {

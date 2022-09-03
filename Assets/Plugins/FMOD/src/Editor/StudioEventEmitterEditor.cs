@@ -10,7 +10,7 @@ namespace FMODUnity
     [CanEditMultipleObjects]
     public class StudioEventEmitterEditor : Editor
     {
-        private ParameterValueView parameterValueView;
+        ParameterValueView parameterValueView;
 
         public void OnEnable()
         {

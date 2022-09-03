@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using UnityEngine;
-using UnityEngine.Serialization;
 using System.Collections;
 
 namespace FMODUnityResonance
@@ -52,70 +51,59 @@ namespace FMODUnityResonance
         }
 
         /// Room surface material in negative x direction.
-        [FormerlySerializedAs("leftWall")]
-        public SurfaceMaterial LeftWall = SurfaceMaterial.ConcreteBlockCoarse;
+        public SurfaceMaterial leftWall = SurfaceMaterial.ConcreteBlockCoarse;
 
         /// Room surface material in positive x direction.
-        [FormerlySerializedAs("rightWall")]
-        public SurfaceMaterial RightWall = SurfaceMaterial.ConcreteBlockCoarse;
+        public SurfaceMaterial rightWall = SurfaceMaterial.ConcreteBlockCoarse;
 
         /// Room surface material in negative y direction.
-        [FormerlySerializedAs("floor")]
-        public SurfaceMaterial Floor = SurfaceMaterial.ParquetOnConcrete;
+        public SurfaceMaterial floor = SurfaceMaterial.ParquetOnConcrete;
 
         /// Room surface material in positive y direction.
-        [FormerlySerializedAs("ceiling")]
-        public SurfaceMaterial Ceiling = SurfaceMaterial.PlasterRough;
+        public SurfaceMaterial ceiling = SurfaceMaterial.PlasterRough;
 
         /// Room surface material in negative z direction.
-        [FormerlySerializedAs("backWall")]
-        public SurfaceMaterial BackWall = SurfaceMaterial.ConcreteBlockCoarse;
+        public SurfaceMaterial backWall = SurfaceMaterial.ConcreteBlockCoarse;
 
         /// Room surface material in positive z direction.
-        [FormerlySerializedAs("frontWall")]
-        public SurfaceMaterial FrontWall = SurfaceMaterial.ConcreteBlockCoarse;
+        public SurfaceMaterial frontWall = SurfaceMaterial.ConcreteBlockCoarse;
 
         /// Reflectivity scalar for each surface of the room.
-        [FormerlySerializedAs("reflectivity")]
-        public float Reflectivity = 1.0f;
+        public float reflectivity = 1.0f;
 
         /// Reverb gain modifier in decibels.
-        [FormerlySerializedAs("reverbGainDb")]
-        public float ReverbGainDb = 0.0f;
+        public float reverbGainDb = 0.0f;
 
         /// Reverb brightness modifier.
-        [FormerlySerializedAs("reverbBrightness")]
-        public float ReverbBrightness = 0.0f;
+        public float reverbBrightness = 0.0f;
 
         /// Reverb time modifier.
-        [FormerlySerializedAs("reverbTime")]
-        public float ReverbTime = 1.0f;
+        public float reverbTime = 1.0f;
 
         /// Size of the room (normalized with respect to scale of the game object).
-        [FormerlySerializedAs("size")]
-        public Vector3 Size = Vector3.one;
+        public Vector3 size = Vector3.one;
 
-        private void OnEnable()
+        void OnEnable()
         {
             FmodResonanceAudio.UpdateAudioRoom(this, FmodResonanceAudio.IsListenerInsideRoom(this));
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
             FmodResonanceAudio.UpdateAudioRoom(this, false);
         }
 
-        private void Update()
+        void Update()
         {
             FmodResonanceAudio.UpdateAudioRoom(this, FmodResonanceAudio.IsListenerInsideRoom(this));
         }
 
-        private void OnDrawGizmosSelected()
+        void OnDrawGizmosSelected()
         {
             // Draw shoebox model wireframe of the room.
             Gizmos.color = Color.yellow;
             Gizmos.matrix = transform.localToWorldMatrix;
-            Gizmos.DrawWireCube(Vector3.zero, Size);
+            Gizmos.DrawWireCube(Vector3.zero, size);
         }
     }
 }

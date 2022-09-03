@@ -58,15 +58,12 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &-8419109512335821599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,15 +122,12 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &-6088730131288454920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +186,7 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
@@ -207,9 +201,6 @@ MonoBehaviour:
   - 2c5177b11d81d824dbb064f9ac8527da
   - 0f8eb3f400726694eb47beb1a9f94ce8
   - fd7c55dab0fce234b8c25f6ffca523c1
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &-2257944338397400308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,15 +259,12 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &-2238764157915739085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,15 +323,12 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &-332134079937446199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,15 +387,12 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,9 +444,9 @@ MonoBehaviour:
   EnableErrorCallback: 0
   SharedLibraryUpdateStage: 0
   SharedLibraryTimeSinceStart: 0
-  CurrentVersion: 131592
+  CurrentVersion: 131588
   HideSetupWizard: 1
-  LastEventReferenceScanVersion: 131592
+  LastEventReferenceScanVersion: 131588
   Platforms:
   - {fileID: -8694143736209609097}
   - {fileID: -8419109512335821599}
@@ -536,15 +518,12 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &849553909794784070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,15 +582,12 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &1002448100906571626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,15 +646,12 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &3064936912363901659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -737,15 +710,12 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0
 --- !u!114 &4728461350560655388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -804,12 +774,9 @@ MonoBehaviour:
     CallbackHandler:
       Value: {fileID: 0}
       HasValue: 0
-  OutputTypeName: 
+  outputType: 
   threadAffinities:
     Value: []
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers: []
-  codecChannels:
-    Value: []
-    HasValue: 0

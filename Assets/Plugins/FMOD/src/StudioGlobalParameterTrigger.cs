@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace FMODUnity
 {
@@ -8,24 +7,20 @@ namespace FMODUnity
     public class StudioGlobalParameterTrigger: EventHandler
     {
         [ParamRef]
-        [FormerlySerializedAs("parameter")]
-        public string Parameter;
-
+        public string parameter;
         public EmitterGameEvent TriggerEvent;
-
-        [FormerlySerializedAs("value")]
-        public float Value;
+        public float value;
 
         private FMOD.Studio.PARAMETER_DESCRIPTION parameterDescription;
-        public FMOD.Studio.PARAMETER_DESCRIPTION ParameterDescription { get { return parameterDescription; } }
+        public FMOD.Studio.PARAMETER_DESCRIPTION ParameterDesctription { get { return parameterDescription; } }
 
-        private FMOD.RESULT Lookup()
+        FMOD.RESULT Lookup()
         {
-            FMOD.RESULT result = RuntimeManager.StudioSystem.getParameterDescriptionByName(Parameter, out parameterDescription);
+            FMOD.RESULT result = RuntimeManager.StudioSystem.getParameterDescriptionByName(parameter, out parameterDescription);
             return result;
         }
 
-        private void Awake()
+        void Awake()
         {
             if (string.IsNullOrEmpty(parameterDescription.name))
             {
@@ -43,12 +38,12 @@ namespace FMODUnity
 
         public void TriggerParameters()
         {
-            if (!string.IsNullOrEmpty(Parameter))
+            if (!string.IsNullOrEmpty(parameter))
             {
-                FMOD.RESULT result = RuntimeManager.StudioSystem.setParameterByID(parameterDescription.id, Value);
+                FMOD.RESULT result = RuntimeManager.StudioSystem.setParameterByID(parameterDescription.id, value);
                 if (result != FMOD.RESULT.OK)
                 {
-                    RuntimeUtils.DebugLogError(string.Format(("[FMOD] StudioGlobalParameterTrigger failed to set parameter {0} : result = {1}"), Parameter, result));
+                    RuntimeUtils.DebugLogError(string.Format(("[FMOD] StudioGlobalParameterTrigger failed to set parameter {0} : result = {1}"), parameter, result));
                 }
             }
         }

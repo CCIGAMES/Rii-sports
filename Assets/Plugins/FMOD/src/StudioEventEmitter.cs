@@ -32,8 +32,6 @@ namespace FMODUnity
         private bool isOneshot = false;
         private List<ParamRef> cachedParams = new List<ParamRef>();
 
-        private static List<StudioEventEmitter> activeEmitters = new List<StudioEventEmitter>();
-
         private const string SnapshotString = "snapshot";
 
         public FMOD.Studio.EventDescription EventDescription { get { return eventDescription; } }
@@ -42,7 +40,7 @@ namespace FMODUnity
 
         public bool IsActive { get; private set; }
 
-        private float MaxDistance
+        public float MaxDistance
         {
             get
             {
@@ -62,45 +60,6 @@ namespace FMODUnity
             }
         }
 
-        public static void UpdateActiveEmitters()
-        {
-            foreach (StudioEventEmitter emitter in activeEmitters)
-            {
-                emitter.UpdatePlayingStatus();
-            }
-        }
-
-        private static void RegisterActiveEmitter(StudioEventEmitter emitter)
-        {
-            if (!activeEmitters.Contains(emitter))
-            {
-                activeEmitters.Add(emitter);
-            }
-        }
-
-        private static void DeregisterActiveEmitter(StudioEventEmitter emitter)
-        {
-            activeEmitters.Remove(emitter);
-        }
-
-        private void UpdatePlayingStatus(bool force = false)
-        {
-            // If at least once listener is within the max distance, ensure an event instance is playing
-            bool playInstance = StudioListener.DistanceToNearestListener(transform.position) <= MaxDistance;
-            
-            if (force || playInstance != IsPlaying())
-            {
-                if (playInstance)
-                {
-                    PlayInstance();
-                }
-                else
-                {
-                    StopInstance();
-                }
-            }
-        }
-
         protected override void Start() 
         {
             RuntimeUtils.EnforceLibraryOrder();
@@ -113,7 +72,7 @@ namespace FMODUnity
             HandleGameEvent(EmitterGameEvent.ObjectStart);
         }
 
-        private void OnApplicationQuit()
+        void OnApplicationQuit()
         {
             isQuitting = true;
         }
@@ -134,7 +93,7 @@ namespace FMODUnity
                     }
                 }
 
-                DeregisterActiveEmitter(this);
+                RuntimeManager.DeregisterActiveEmitter(this);
 
                 if (Preload)
                 {
@@ -155,7 +114,7 @@ namespace FMODUnity
             }
         }
 
-        private void Lookup()
+        void Lookup()
         {
             eventDescription = RuntimeManager.GetEventDescription(EventReference);
 
@@ -204,8 +163,8 @@ namespace FMODUnity
 
             if (is3D && !isOneshot && Settings.Instance.StopEventsOutsideMaxDistance)
             {
-                RegisterActiveEmitter(this);
-                UpdatePlayingStatus(true);
+                RuntimeManager.RegisterActiveEmitter(this);
+                RuntimeManager.UpdateActiveEmitter(this, true);
             }
             else
             {
@@ -213,7 +172,7 @@ namespace FMODUnity
             }
         }
         
-        private void PlayInstance()
+        public void PlayInstance()
         {
             if (!instance.isValid())
             {
@@ -286,17 +245,17 @@ namespace FMODUnity
 
         public void Stop()
         {
-            DeregisterActiveEmitter(this);
+            RuntimeManager.DeregisterActiveEmitter(this);
             IsActive = false;
             cachedParams.Clear();
             StopInstance();
         }
 
-        private void StopInstance()
+        public void StopInstance()
         {
             if (TriggerOnce && hasTriggered)
             {
-                DeregisterActiveEmitter(this);
+                RuntimeManager.DeregisterActiveEmitter(this);
             }
 
             if (instance.isValid())
