@@ -12,4 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Baseball.unity
     guid: dde93a0bfaa9dd24dad89c3cee4ecd09
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 4a454ee709084254d9332fa814fe4b67, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 267363eb6e788804295807208b08ee0f, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 90de7dae20fb77847971c954b333f0f6, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: e37d3b3dac00e6e4a8dbda9178830c3d, type: 2}
