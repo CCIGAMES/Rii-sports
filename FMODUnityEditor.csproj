@@ -41,34 +41,34 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\LogViewer.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\BankRefDrawer.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\SettingsEditor.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\EventManager.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\FMODEventTrackEditor.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\FindAndReplace.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\BankRefreshWindow.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\CreateEventPopup.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\EventCache.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\EventBrowser.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioParameterTriggerEditor.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorUtils.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioBankLoaderEditor.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\EventReferenceUpdater.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\FileReorganizer.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\FMODEventPlayableEditor.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\SetupWizard.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorSettings.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\ParamRefDrawer.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorParamRef.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\EventRefDrawer.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorBankRef.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioListenerEditor.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioEventEmitterGizmoDrawer.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioGlobalParameterTriggerEditor.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorEventRef.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioEventEmitterEditor.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\BankRefresher.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\LogViewer.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\BankRefDrawer.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\EventManager.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\CreateEventPopup.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\EventCache.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioParameterTriggerEditor.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorUtils.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\EventReferenceUpdater.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\FMODEventPlayableEditor.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\SetupWizard.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorSettings.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorParamRef.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\EventRefDrawer.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioGlobalParameterTriggerEditor.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\ListView.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\BoltIntegration.cs" />
      <None Include="Assets\Plugins\FMOD\src\Editor\FMODUnityEditor.asmdef" />
@@ -324,8 +324,11 @@
      <Reference Include="UnityEditor.WindowsStandalone.Extensions">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.8f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
      </Reference>
-     <Reference Include="unityplastic">
-     <HintPath>C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.unity.collab-proxy@1.17.1\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
+     <Reference Include="UnityEditor.UWP.Extensions">
+     <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.8f1\Editor\Data\PlaybackEngines\MetroSupport\UnityEditor.UWP.Extensions.dll</HintPath>
+     </Reference>
+     <Reference Include="Microsoft.MixedReality.Input.DotNet">
+     <HintPath>C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.microsoft.mixedreality.input@c707ff4d69e7\Plugins\Windows\Microsoft.MixedReality.Input.DotNet.dll</HintPath>
      </Reference>
      <Reference Include="log4netPlastic">
      <HintPath>C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.unity.collab-proxy@1.17.1\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
@@ -357,8 +360,8 @@
      <Reference Include="Unity.Burst.Cecil.Rocks">
      <HintPath>C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.CodeGen\Unity.Burst.Cecil.Rocks.dll</HintPath>
      </Reference>
-     <Reference Include="Microsoft.MixedReality.Input.DotNet">
-     <HintPath>C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.microsoft.mixedreality.input@c707ff4d69e7\Plugins\Windows\Microsoft.MixedReality.Input.DotNet.dll</HintPath>
+     <Reference Include="unityplastic">
+     <HintPath>C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.unity.collab-proxy@1.17.1\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.8f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\mscorlib.dll</HintPath>
