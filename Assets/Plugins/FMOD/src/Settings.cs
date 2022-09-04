@@ -78,7 +78,7 @@ namespace FMODUnity
     {
 #if UNITY_EDITOR
         [SerializeField]
-        bool SwitchSettingsMigration = false;
+        private bool SwitchSettingsMigration = false;
 #endif
 
         public const string SettingsAssetName = "FMODStudioSettings";
@@ -268,6 +268,7 @@ namespace FMODUnity
                     instance = CreateInstance<Settings>();
                     instance.name = "FMOD Studio Integration Settings";
                     instance.CurrentVersion = FMOD.VERSION.number;
+                    instance.LastEventReferenceScanVersion = FMOD.VERSION.number;
 
 #if UNITY_EDITOR
                     if (editorSettings != null)
