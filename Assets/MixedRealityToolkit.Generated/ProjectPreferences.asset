@@ -19,7 +19,8 @@ MonoBehaviour:
   intPreferences:
     keys:
     - _MixedRealityToolkit_Editor_ConfiguratorState
-    values: 00000000
+    - MixedRealityToolkit_Editor_AudioSpatializerCount
+    values: f401000000000000
   floatPreferences:
     keys: []
     values: []

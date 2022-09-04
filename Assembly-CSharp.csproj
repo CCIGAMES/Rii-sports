@@ -41,6 +41,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+    <Analyzer Include="C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll" />
+  </ItemGroup>
+  <ItemGroup>
      <Compile Include="Assets\Scripts\utils\FpsCounter.cs" />
      <Compile Include="Assets\Scripts\player\cursor.cs" />
      <Compile Include="Assets\Scripts\AI\Looker.cs" />
@@ -329,9 +332,6 @@
      </Reference>
      <Reference Include="Microsoft.MixedReality.Input.DotNet">
      <HintPath>C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.microsoft.mixedreality.input@c707ff4d69e7\Plugins\Windows\Microsoft.MixedReality.Input.DotNet.dll</HintPath>
-     </Reference>
-     <Reference Include="nunit.framework">
-     <HintPath>C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.unity.ext.nunit@2.0.2\net40\unity-custom\nunit.framework.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Unsafe">
      <HintPath>C:\Users\gabri\Desktop\projects\Rii-sports\Library\PackageCache\com.unity.burst@1.7.3\Unity.Burst.Unsafe.dll</HintPath>
