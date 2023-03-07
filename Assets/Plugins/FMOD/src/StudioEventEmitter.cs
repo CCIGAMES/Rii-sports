@@ -85,9 +85,9 @@ namespace FMODUnity
 
         private void UpdatePlayingStatus(bool force = false)
         {
-            // If at least once listener is within the max distance, ensure an event instance is playing
-            bool playInstance = StudioListener.DistanceToNearestListener(transform.position) <= MaxDistance;
-            
+            // If at least one listener is within the max distance, ensure an event instance is playing
+            bool playInstance = StudioListener.DistanceSquaredToNearestListener(transform.position) <= (MaxDistance * MaxDistance);
+
             if (force || playInstance != IsPlaying())
             {
                 if (playInstance)
@@ -303,7 +303,10 @@ namespace FMODUnity
             {
                 instance.stop(AllowFadeout ? FMOD.Studio.STOP_MODE.ALLOWFADEOUT : FMOD.Studio.STOP_MODE.IMMEDIATE);
                 instance.release();
-                instance.clearHandle();
+                if (!AllowFadeout)
+                {
+                    instance.clearHandle();
+                }
             }
         }
 
@@ -311,7 +314,8 @@ namespace FMODUnity
         {
             if (Settings.Instance.StopEventsOutsideMaxDistance && IsActive)
             {
-                ParamRef cachedParam = cachedParams.Find(x => x.Name == name);
+                string findName = name;
+                ParamRef cachedParam = cachedParams.Find(x => x.Name == findName);
 
                 if (cachedParam == null)
                 {
@@ -337,7 +341,8 @@ namespace FMODUnity
         {
             if (Settings.Instance.StopEventsOutsideMaxDistance && IsActive)
             {
-                ParamRef cachedParam = cachedParams.Find(x => x.ID.Equals(id));
+                FMOD.Studio.PARAMETER_ID findId = id;
+                ParamRef cachedParam = cachedParams.Find(x => x.ID.Equals(findId));
 
                 if (cachedParam == null)
                 {
