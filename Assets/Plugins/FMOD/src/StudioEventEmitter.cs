@@ -18,6 +18,7 @@ namespace FMODUnity
         public bool AllowFadeout = true;
         public bool TriggerOnce = false;
         public bool Preload = false;
+        public bool AllowNonRigidbodyDoppler = false;
         public ParamRef[] Params = new ParamRef[0];
         public bool OverrideAttenuation = false;
         public float OverrideMinDistance = -1.0f;
@@ -101,7 +102,7 @@ namespace FMODUnity
             }
         }
 
-        protected override void Start() 
+        protected override void Start()
         {
             RuntimeUtils.EnforceLibraryOrder();
             if (Preload)
@@ -111,6 +112,14 @@ namespace FMODUnity
             }
 
             HandleGameEvent(EmitterGameEvent.ObjectStart);
+
+            // If a Rigidbody is added, turn off "allowNonRigidbodyDoppler" option
+#if UNITY_PHYSICS_EXIST
+            if (AllowNonRigidbodyDoppler && GetComponent<Rigidbody>())
+            {
+                AllowNonRigidbodyDoppler = false;
+            }
+#endif
         }
 
         private void OnApplicationQuit()
@@ -212,7 +221,7 @@ namespace FMODUnity
                 PlayInstance();
             }
         }
-        
+
         private void PlayInstance()
         {
             if (!instance.isValid())
@@ -258,7 +267,7 @@ namespace FMODUnity
 #endif
                     {
                         instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
-                        RuntimeManager.AttachInstanceToGameObject(instance, transform);
+                        RuntimeManager.AttachInstanceToGameObject(instance, transform, AllowNonRigidbodyDoppler);
                     }
                 }
             }

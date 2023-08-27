@@ -1,15 +1,11 @@
 ﻿#if UNITY_EDITOR
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor.SceneManagement;
-using UnityEditor;
-using System.IO;
-using System.Threading.Tasks;
-using System.Threading;
 using ERP.Discord;
+using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace ERP

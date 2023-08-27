@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ERP.Discord
+﻿namespace ERP.Discord
 {
     static class Constants
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ERP.Discord
+﻿namespace ERP.Discord
 {
     public partial class ActivityManager
     {

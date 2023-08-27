@@ -168,24 +168,19 @@ namespace FMODUnity
             }
         }
 
-        public static string SeriesString(string separator, string finalSeparator, string[] elements)
+        public static string SeriesString(string separator, string finalSeparator, IEnumerable<string> elements)
         {
-            if (elements.Length == 0)
+            if (!elements.Any())
             {
                 return string.Empty;
             }
-            else if (elements.Length == 1)
+            else if (!elements.Skip(1).Any())
             {
-                return elements[0];
-            }
-            else if (elements.Length == 2)
-            {
-                return elements[0] + finalSeparator + elements[1];
+                return elements.First();
             }
             else
             {
-                return string.Join(separator, elements, 0, elements.Length - 1)
-                    + finalSeparator + elements[elements.Length - 1];
+                return string.Join(separator, elements.Take(elements.Count() - 1)) + finalSeparator + elements.Last();
             }
         }
 
@@ -363,7 +358,14 @@ namespace FMODUnity
             EditorApplication.playModeStateChanged += HandleOnPlayModeChanged;
             EditorApplication.pauseStateChanged += HandleOnPausedModeChanged;
 
-            EditorApplication.update += CallStartupMethodsWhenReady;
+            if (Application.isBatchMode)
+            {
+                BuildStatusWatcher.Startup();
+            }
+            else
+            {
+                EditorApplication.update += CallStartupMethodsWhenReady;
+            }
         }
 
         private static void HandleBeforeAssemblyReload()
@@ -437,6 +439,7 @@ namespace FMODUnity
 
             // Explicitly initialize Settings so that both it and EditorSettings will work.
             Settings.Initialize();
+            Settings.EditorSettings.CheckActiveBuildTarget();
 
             CheckBaseFolderGUID();
             CheckMacLibraries();
@@ -480,6 +483,18 @@ namespace FMODUnity
             FMODEventPlayableBehavior.GraphStop += (sender, args) =>
             {
                 PreviewStop(args.eventInstance);
+            };
+
+            FMODEventPlayable.OnCreatePlayable += (sender, args) =>
+            {
+                FMODEventPlayable playable = sender as FMODEventPlayable;
+                if (playable.Parameters.Length > 0 || playable.Template.ParameterLinks.Count > 0)
+                {
+                    LoadPreviewBanks();
+                    FMOD.Studio.EventDescription eventDescription;
+                    system.getEventByID(playable.EventReference.Guid, out eventDescription);
+                    playable.LinkParameters(eventDescription);
+                }
             };
 #endif
 
@@ -655,7 +670,7 @@ namespace FMODUnity
             {
                 url = string.Format("{0}/{1}/{2}", Prefix, version, section);
             }
-                
+
             Application.OpenURL(url);
         }
 
@@ -669,7 +684,7 @@ namespace FMODUnity
             CheckResult(lowlevel.getVersion(out version));
 
             string text = string.Format(
-                "Version: {0}\n\nCopyright \u00A9 Firelight Technologies Pty, Ltd. 2014-2022 \n\n" +
+                "Version: {0}\n\nCopyright \u00A9 Firelight Technologies Pty, Ltd. 2014-2023 \n\n" +
                 "See LICENSE.TXT for additional license information.",
                 VersionString(version));
 
