@@ -44,7 +44,7 @@ namespace FMODUnity
         private bool hasBankTargetChanged = false;
 
         private bool expandThreadAffinity;
-		private bool expandCodecChannels;
+        private bool expandCodecChannels;
         private bool expandDynamicPlugins;
         private bool expandStaticPlugins;
 
@@ -1983,7 +1983,7 @@ namespace FMODUnity
 
                 menu.AddSeparator(string.Empty);
 
-                IEnumerable<Platform> missingPlatforms = settings.EnumeratePlatforms()
+                IEnumerable<Platform> missingPlatforms = settings.Platforms
                     .Where(p => !p.Active)
                     .OrderBy(p => p.DisplayName, new NaturalComparer());
 

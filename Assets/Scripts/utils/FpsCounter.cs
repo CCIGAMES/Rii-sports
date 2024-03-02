@@ -9,8 +9,8 @@ public class FpsCounter : MonoBehaviour
     private void Update()
     {
         float current = 0;
-        current = (int) (1f / Time.unscaledDeltaTime);
-        avgFrameRate = (int) current;
+        current = (int)(1f / Time.unscaledDeltaTime);
+        avgFrameRate = (int)current;
         fps.text = avgFrameRate + " FPS";
     }
 }
